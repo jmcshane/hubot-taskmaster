@@ -12,6 +12,7 @@ describe 'taskmaster', ->
       hear: sinon.spy()
       brain: {
         on: sinon.spy()
+        set: sinon.spy()
       }
 
     @taskmaster = Taskmaster(@robot)
@@ -25,6 +26,7 @@ describe 'taskmaster', ->
   it 'registers a function on the message object', ->
     msg =
       match : ["no-data","My Task"]
-      message: user: reply_to: "room"
+      message: room: "room"
+      reply: sinon.spy()
     @taskmaster._createTask(msg)
     assert.lengthOf(@taskmaster.tasksFor("room"), 1)
