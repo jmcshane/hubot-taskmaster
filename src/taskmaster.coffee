@@ -61,14 +61,15 @@ class Taskmaster
     return @config[room];
 
   _configureRobot: () ->
+    context = this
     @robot.respond /task create (.*)/i, (msg) ->
-      @_createTask(msg)
+      context._createTask(msg)
     @robot.respond /task list(\s?.*)/i, (msg) ->
-      @_listTasks(msg)
+      context._listTasks(msg)
     @robot.respond /task start (.*)/i, (msg) ->
-      @_startTask(msg)
+      context._startTask(msg)
     @robot.respond /task complete (.*)/i, (msg) ->
-      @_completeTask(msg)
+      context._completeTask(msg)
 
 module.exports = (robot) ->
   new Taskmaster(robot)
