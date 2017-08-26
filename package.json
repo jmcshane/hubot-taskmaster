@@ -1,7 +1,7 @@
 {
   "name": "hubot-taskmaster",
   "description": "A hubot script that provides a way to manage tasks that must be done",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "author": "James McShane <jmcshan1@gmail.com>",
   "license": "MIT",
   "keywords": "hubot, hubot-scripts",

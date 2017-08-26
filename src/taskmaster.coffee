@@ -52,10 +52,11 @@ class Taskmaster
   _listTasks: (msg) ->
     roomTasks = @_nonEmptyRoomValidation(msg)
     if roomTasks
-      response = "\/code ";
+      response = "";
       for task, index in roomTasks
-        response += "\n"
-        response += "#{index}: #{task[DESCRIPTION]}, #{task[STATUS]}"
+        if response.length
+          response += "\n"
+        response += "#{index + 1}: #{task[DESCRIPTION]}, #{task[STATUS]}"
       msg.send response
 
   _deleteTask: (msg) ->
@@ -94,19 +95,21 @@ Cannot proceed from #{task[STATUS]} to #{STATUS_ARRAY[targetStatusIndex]}"""
       return @_roomDetails(msg)
     task = @_taskIndexValidation(msg)
     if task
-      reply = "\/code"
+      reply = ""
       for key, value of task
-        reply += "\n#{key}: #{value}"
+        if reply.length
+          reply += "\n"
+        reply += "#{key}: #{value}"
       msg.send reply
 
   _roomDetails: (msg) ->
     room = @_getRoom(msg)
-    msg.send "\/code #{JSON.stringify(@config[room])}"
+    msg.send "#{JSON.stringify(@config[room])}"
 
   _taskIndexValidation: (msg) ->
     roomTasks = @_nonEmptyRoomValidation(msg)
     if roomTasks
-      requestedIndex = parseInt(msg.match[1])
+      requestedIndex = parseInt(msg.match[1]) - 1
       if isNaN(requestedIndex)
         requestedTaskName = msg.match[1]
         for task in roomTasks
@@ -114,7 +117,7 @@ Cannot proceed from #{task[STATUS]} to #{STATUS_ARRAY[targetStatusIndex]}"""
             return task
       else
         if roomTasks.length <= requestedIndex || requestedIndex < 0
-          msg.reply "There is no task with that index, see task list for the appropriate indexes"
+          msg.reply "There is no task with that index, see task list for possible values"
         else
           return roomTasks[requestedIndex]
     return undefined
